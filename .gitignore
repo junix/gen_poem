@@ -4,3 +4,5 @@
 .idea/sonarlint/
 .idea/workspace.xml
 .ipynb_checkpoints/
+conf/__pycache__/
+__pycache__/
