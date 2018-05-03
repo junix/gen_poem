@@ -14,4 +14,4 @@ class Embed(torch.nn.Module):
         embeds = self.embedding(inputs).view(1, -1)
         out = F.relu(self.linear1(embeds))
         out = self.linear2(out)
-        return F.log_softmax(out)
+        return F.log_softmax(out, dim=1)
