@@ -33,7 +33,7 @@ def train(model, dataset):
             loss.backward()
             optimizer.step()
             count += 1
-            if count % 20000 == 0:
+            if count % 50000 == 0:
                 torch.save(model, 'model.pt')
                 print(count)
 
