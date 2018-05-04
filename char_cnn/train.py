@@ -26,8 +26,9 @@ def train_iter(model):
     optimizer = optim.SGD(model.parameters(), lr=0.0001)
     criterion = nn.NLLLoss()
     count = 1
+    dataset = list(gen_dataset())
     for epoch in range(400):
-        for input in gen_dataset():
+        for input in dataset:
             train(model, input, optimizer, criterion)
             count += 1
             if count % 40000 == 0:
