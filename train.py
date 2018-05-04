@@ -62,18 +62,19 @@ def gen_dataset():
 def train_and_dump():
     encoder = Encoder(vocab_size=vocab_size, hidden_size=HIDDEN_SIZE)
     decoder = Decoder(output_size=vocab_size, hidden_size=HIDDEN_SIZE)
-    embed = nn.Embedding(vocab_size, HIDDEN_SIZE)
-    embed.load_state_dict(torch.load('embedding_state.pt', map_location=lambda storage, loc: storage))
-    encoder.embedding = embed
-    decoder.embedding = embed
-    ignore_ids = set([id(p) for p in embed.parameters()])
+    # embed = nn.Embedding(vocab_size, HIDDEN_SIZE)
+    # embed.load_state_dict(torch.load('embedding_state.pt', map_location=lambda storage, loc: storage))
+    # encoder.embedding = embed
+    # decoder.embedding = embed
+    # ignore_ids = set([id(p) for p in embed.parameters()])
+    # ignore_ids = set([id(p) for p in embed.parameters()])
     change_to_device(encoder)
     change_to_device(decoder)
     dataset = list(gen_dataset())
-    enc_params = [p for p in encoder.parameters() if id(p) not in ignore_ids]
-    encoder_optim = optim.SGD([{'params': enc_params}], lr=0.0001)
-    dec_params = [p for p in decoder.parameters() if id(p) not in ignore_ids]
-    decoder_optim = optim.SGD([{'params': dec_params}], lr=0.0001)
+    enc_params = [p for p in encoder.parameters()]
+    encoder_optim = optim.SGD([{'params': encoder.parameters()}], lr=0.001)
+    dec_params = [p for p in decoder.parameters()]
+    decoder_optim = optim.SGD([{'params': decoder.parameters()}], lr=0.001)
     criterion = nn.NLLLoss()
     count = 1
     for epoch in range(300):
