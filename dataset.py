@@ -1,9 +1,12 @@
 import torch
 from conf import device, dataset_path
 
+SOS = 0
+EOS = 1
+
 
 def _read_vocab(file):
-    chr2idx = {'<SOS>': 0, '<EOS>': 1}
+    chr2idx = {'<SOS>': SOS, '<EOS>': EOS}
     with open(file, 'r') as f:
         for ch in set(f.read()):
             chr2idx[ch] = len(chr2idx)
@@ -13,7 +16,10 @@ def _read_vocab(file):
 
 char2index, index2char = _read_vocab(dataset_path)
 
+vocab_size = len(char2index)
+
 
 def indexes_from_sentence(sentence):
     indexes = [char2index[c] for c in sentence]
+    indexes.append(EOS)
     return torch.tensor(indexes, dtype=torch.long, device=device)
