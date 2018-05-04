@@ -6,6 +6,7 @@ from dataset import indexes_from_sentence, EOS, index2char
 def load_model():
     model = torch.load('model.pt', map_location=lambda storage, loc: storage)
     change_to_device(model)
+    return model
 
 
 def load_predict():
