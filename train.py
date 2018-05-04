@@ -62,6 +62,7 @@ def gen_dataset():
 def train_and_dump():
     encoder = Encoder(vocab_size=vocab_size, hidden_size=HIDDEN_SIZE)
     decoder = Decoder(output_size=vocab_size, hidden_size=HIDDEN_SIZE)
+    decoder.embedding = encoder.embedding
     # embed = nn.Embedding(vocab_size, HIDDEN_SIZE)
     # embed.load_state_dict(torch.load('embedding_state.pt', map_location=lambda storage, loc: storage))
     # encoder.embedding = embed
