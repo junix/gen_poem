@@ -5,7 +5,7 @@ import torch.nn as nn
 import torch.optim as optim
 
 from dataset import SOS, EOS, indexes_from_sentence, vocab_size
-from conf import device, teacher_forcing_ratio, dataset_path, change_to_device
+from conf import device, teacher_forcing_ratio, dataset_path, change_to_device, HIDDEN_SIZE
 
 from encoder import Encoder
 from decoder import Decoder
@@ -60,9 +60,9 @@ def gen_dataset():
 
 
 def train_and_dump():
-    encoder = Encoder(vocab_size=vocab_size, hidden_size=200)
-    decoder = Decoder(output_size=vocab_size, hidden_size=200)
-    embed = nn.Embedding(vocab_size, 200)
+    encoder = Encoder(vocab_size=vocab_size, hidden_size=HIDDEN_SIZE)
+    decoder = Decoder(output_size=vocab_size, hidden_size=HIDDEN_SIZE)
+    embed = nn.Embedding(vocab_size, HIDDEN_SIZE)
     embed.load_state_dict(torch.load('embedding_state.pt', map_location=lambda storage, loc: storage))
     encoder.embedding = embed
     decoder.embedding = embed
