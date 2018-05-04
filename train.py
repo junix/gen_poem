@@ -25,7 +25,8 @@ def train(encoder, decoder,
         encoder_output, encoder_hidden = encoder(input_tensor[i], encoder_hidden)
 
     decoder_input = torch.tensor([SOS], dtype=torch.long, device=device)
-    decoder_hidden = decoder.init_hidden()
+    # decoder_hidden = decoder.init_hidden()
+    decoder_hidden = encoder_hidden
 
     use_teacher_forcing = True if random.random() < teacher_forcing_ratio else False
 
