@@ -19,7 +19,8 @@ char2index, index2char = _read_vocab(dataset_path)
 vocab_size = len(char2index)
 
 
-def indexes_from_sentence(sentence):
+def indexes_from_sentence(sentence, append_eos=True):
     indexes = [char2index[c] for c in sentence]
-    indexes.append(EOS)
+    if append_eos:
+        indexes.append(EOS)
     return torch.tensor(indexes, dtype=torch.long, device=device)
