@@ -30,6 +30,6 @@ def load_predict():
                 else:
                     input = output.squeeze.detach()
                     output, hidden = model(input, hidden)
-        return ''.join([index2char(i) for i in out_words])
+        return ''.join([index2char[i] for i in out_words])
 
     return predict
