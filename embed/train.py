@@ -24,11 +24,11 @@ def train(model, dataset):
     loss_func = nn.NLLLoss()
     count = 0
     for epoch in range(300):
-        for ctxs, target in dataset:
-            ctxs = torch.tensor([char2index[w] for w in ctxs], dtype=torch.long, device=device)
+        for context, target in dataset:
+            context = torch.tensor([char2index[w] for w in context], dtype=torch.long, device=device)
             target = torch.tensor([char2index[target]], dtype=torch.long, device=device)
             model.zero_grad()
-            log_probs = model(ctxs)
+            log_probs = model(context)
             loss = loss_func(log_probs, target)
             loss.backward()
             optimizer.step()
