@@ -8,6 +8,7 @@ from dataset import indexes_from_sentence, vocab_size
 
 from .model import Model
 
+_model_dump = torch.load('model.pt')
 
 def train(model, input, optmizer, criterion):
     optmizer.zero_grad()
@@ -25,12 +26,12 @@ def train_iter(model):
     optimizer = optim.SGD(model.parameters(), lr=0.0001)
     criterion = nn.NLLLoss()
     count = 1
-    for epoch in range(6):
+    for epoch in range(400):
         for input in gen_dataset():
             train(model, input, optimizer, criterion)
             count += 1
             if count % 40000 == 0:
-                torch.save(model, 'model.pt')
+                torch.save(model, _model_dump)
                 print(count)
 
 
@@ -44,7 +45,10 @@ def gen_dataset():
                 yield indexes_from_sentence(seg)
 
 
-def train_and_dump():
-    model = Model(vocab_size=vocab_size, hidden_size=512)
+def train_and_dump(load_old=False):
+    if load_old:
+        model = torch.load(_model_dump)
+    else:
+        model = Model(vocab_size=vocab_size, hidden_size=512)
     change_to_device(model)
     train_iter(model)
