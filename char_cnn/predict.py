@@ -1,5 +1,5 @@
 import torch
-from conf import change_to_device
+from conf import change_to_device, device
 from dataset import indexes_from_sentence, EOS, index2char
 
 
@@ -28,7 +28,7 @@ def load_predict():
                 if topi.item() == EOS:
                     break
                 else:
-                    input = output.squeeze().detach()
+                    input = torch.tensor([[topi.item()]], dtype=torch.long, device=device)
                     output, hidden = model(input, hidden)
         return ''.join([index2char[i] for i in out_words])
 
