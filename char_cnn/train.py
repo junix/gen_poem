@@ -21,12 +21,12 @@ def train(model, input, optmizer, criterion):
     optmizer.step()
 
 
-def train_iter(model, dataset):
+def train_iter(model):
     optimizer = optim.SGD(model.parameters(), lr=0.0001)
     criterion = nn.NLLLoss()
     count = 1
     for epoch in range(6):
-        for input in dataset:
+        for input in gen_dataset():
             train(model, input, optimizer, criterion)
             count += 1
             if count % 40000 == 0:
@@ -47,5 +47,4 @@ def gen_dataset():
 def train_and_dump():
     model = Model(vocab_size=vocab_size, hidden_size=512)
     change_to_device(model)
-    dataset = list(gen_dataset())
-    train_iter(model, dataset)
+    train_iter(model)
