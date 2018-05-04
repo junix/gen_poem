@@ -34,7 +34,7 @@ def train(model, dataset):
             optimizer.step()
             count += 1
             if count % 50000 == 0:
-                torch.save(model, 'model.pt')
+                torch.save(model.embedding.state_dict(), 'embedding_state.pt')
                 print(count)
 
 
