@@ -28,7 +28,7 @@ def load_predict():
                 if topi.item() == EOS:
                     break
                 else:
-                    input = output.squeeze.detach()
+                    input = output.squeeze().detach()
                     output, hidden = model(input, hidden)
         return ''.join([index2char[i] for i in out_words])
 
