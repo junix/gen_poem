@@ -8,7 +8,8 @@ from dataset import indexes_from_sentence, vocab_size
 
 from .model import Model
 
-_model_dump = torch.load('model.pt')
+_model_dump = 'model.pt'
+
 
 def train(model, input, optmizer, criterion):
     optmizer.zero_grad()
