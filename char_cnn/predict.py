@@ -24,8 +24,8 @@ def load_predict():
                 output, hidden = model(in_tensor[i], hidden)
             while True:
                 topv, topi = output.topk(1)
-                out_words.append(topi)
-                if topi == EOS:
+                out_words.append(topi.item())
+                if topi.item() == EOS:
                     break
                 else:
                     input = output.squeeze.detach()
