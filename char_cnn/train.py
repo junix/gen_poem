@@ -3,7 +3,7 @@ import torch
 import torch.optim as optim
 import torch.nn as nn
 
-from conf import dataset_path
+from conf import dataset_path, change_to_device
 from dataset import indexes_from_sentence, vocab_size
 
 from .model import Model
@@ -46,5 +46,6 @@ def gen_dataset():
 
 def train_and_dump():
     model = Model(vocab_size=vocab_size, hidden_size=512)
+    change_to_device(model)
     dataset = list(gen_dataset())
     train_iter(model, dataset)
