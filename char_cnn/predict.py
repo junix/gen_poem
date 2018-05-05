@@ -1,9 +1,10 @@
 import random
+
 import torch
+
+from char_cnn.train import gen_dataset_sentence
 from conf import change_to_device, device
 from dataset import indexes_from_sentence, EOS, index2char
-from char_cnn.train import gen_dataset_sentence
-from itertools import islice
 
 
 def load_model():

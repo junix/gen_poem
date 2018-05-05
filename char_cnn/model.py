@@ -9,16 +9,18 @@ class Model(nn.Module):
     def __init__(self, vocab_size, hidden_size):
         super(Model, self).__init__()
         self.hidden_size = hidden_size
-        self.embedding = nn.Embedding(vocab_size, hidden_size)
-        self.gru = nn.GRU(hidden_size, hidden_size)
-        self.linear = nn.Linear(hidden_size, vocab_size)
+        self.embedding = nn.Embedding(vocab_size, 200)
+        self.gru = nn.GRU(200, hidden_size)
+        self.linear = nn.Linear(hidden_size, hidden_size)
+        self.linear2 = nn.Linear(hidden_size, vocab_size)
         self.softmax = nn.LogSoftmax(dim=1)
 
     def forward(self, in_tensor, hidden):
         embed = self.embedding(in_tensor).view(1, 1, -1)
         output, hidden = self.gru(embed, hidden)
         output = self.linear(output.view(1, -1))
-        output = self.softmax(F.relu(output))
+        output = self.linear2(F.relu(output.view(1, -1)))
+        output = self.softmax(output)
         return output, hidden
 
     def init_hidden(self):
