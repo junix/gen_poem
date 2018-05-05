@@ -1,6 +1,9 @@
+import random
 import torch
 from conf import change_to_device, device
 from dataset import indexes_from_sentence, EOS, index2char
+from char_cnn.train import gen_dataset_sentence
+from itertools import islice
 
 
 def load_model():
@@ -25,12 +28,23 @@ def load_predict():
                 output, hidden = model(in_tensor[i], hidden)
             while True:
                 topv, topi = output.topk(1)
-                out_words.append(topi.item())
                 if topi.item() == EOS:
                     break
                 else:
+                    out_words.append(topi.item())
                     input = torch.tensor([[topi.item()]], dtype=torch.long, device=device)
                     output, hidden = model(input, hidden)
         return ''.join([index2char[i] for i in out_words])
 
     return predict
+
+
+def test():
+    pred = load_predict()
+    xs = list(gen_dataset_sentence())
+    random.shuffle(xs)
+
+    for seg in xs[:100]:
+        prefix = seg[:-2]
+        suffix = pred(prefix)
+        print(seg, '=>', prefix + suffix)

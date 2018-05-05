@@ -48,14 +48,19 @@ def train_iter(model):
                 loss = 0
 
 
-def gen_dataset():
+def gen_dataset_sentence():
     with open(dataset_path, 'r') as f:
         for line in f:
             for seg in re.split('[，。]', line):
                 seg = seg.strip()
                 if not seg:
                     continue
-                yield indexes_from_sentence(seg)
+                yield seg
+
+
+def gen_dataset():
+    for seg in gen_dataset_sentence():
+        yield indexes_from_sentence(seg)
 
 
 def train_and_dump(load_old=False):
