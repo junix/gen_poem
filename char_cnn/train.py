@@ -6,7 +6,7 @@ import torch.optim as optim
 import torch.nn as nn
 
 from conf import dataset_path, change_to_device
-from dataset import indexes_from_sentence, vocab_size
+from dataset import indexes_from_sentence, vocab_size, EOS
 
 from utils import change_lr
 from .model import Model
@@ -22,6 +22,9 @@ def train(model, input_tensor, optimizer, criterion):
     for i in range(input_len - 1):
         output, hidden = model(input_tensor[i], hidden)
         loss += criterion(output, input_tensor[i + 1].view(1))
+        topv, topi = output.topk(1)
+        if topi == EOS:
+            break
     loss.backward()
     optimizer.step()
     return loss.item()
