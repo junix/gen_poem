@@ -1,4 +1,5 @@
 import re
+import types
 import torch
 import torch.optim as optim
 import torch.nn as nn
@@ -6,6 +7,7 @@ import torch.nn as nn
 from conf import dataset_path, change_to_device
 from dataset import indexes_from_sentence, vocab_size
 
+from utils import change_lr
 from .model import Model
 
 _model_dump = 'model.pt'
@@ -25,7 +27,9 @@ def train(model, input_tensor, optimizer, criterion):
 
 
 def train_iter(model):
-    optimizer = optim.SGD(model.parameters(), lr=0.01)
+    lr = 0.01
+    optimizer = optim.SGD(model.parameters(), lr=lr)
+    optimizer.change_lr = types.MethodType(change_lr, optimizer)
     criterion = nn.NLLLoss()
     count = 1
     dataset = list(gen_dataset())
@@ -36,6 +40,9 @@ def train_iter(model):
             count += 1
             if count % 20000 == 0:
                 torch.save(model, _model_dump)
+            if count % 100000 == 0:
+                lr = lr * 0.9
+                optimizer.change_lr(lr)
             if count % 2000 == 0:
                 print('loss => ', loss)
                 loss = 0
