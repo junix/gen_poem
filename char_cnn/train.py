@@ -37,6 +37,7 @@ def train_iter(model):
     loss = 0
     for epoch in range(400):
         random.shuffle(dataset)
+        print('begin epoch=>', epoch)
         for X in dataset:
             loss += train(model, X, optimizer, criterion)
             count += 1
