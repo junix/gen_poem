@@ -44,6 +44,8 @@ def train_iter(model):
                 torch.save(model, _model_dump)
             if count % 100000 == 0:
                 lr = lr * 0.95
+                if lr < 0.0001:
+                    lr = 0.0001
                 optimizer.change_lr(lr)
             if count % 2000 == 0:
                 print(count, ' => ', loss)
