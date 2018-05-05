@@ -11,16 +11,16 @@ from .model import Model
 _model_dump = 'model.pt'
 
 
-def train(model, input, optmizer, criterion):
-    optmizer.zero_grad()
-    input_len = input.size(0)
+def train(model, input_tensor, optimizer, criterion):
+    optimizer.zero_grad()
+    input_len = input_tensor.size(0)
     hidden = model.init_hidden()
     loss = 0
     for i in range(input_len - 1):
-        output, hidden = model(input[i], hidden)
-        loss += criterion(output, input[i + 1].view(1))
+        output, hidden = model(input_tensor[i], hidden)
+        loss += criterion(output, input_tensor[i + 1].view(1))
     loss.backward()
-    optmizer.step()
+    optimizer.step()
 
 
 def train_iter(model):
@@ -29,8 +29,8 @@ def train_iter(model):
     count = 1
     dataset = list(gen_dataset())
     for epoch in range(400):
-        for input in dataset:
-            train(model, input, optimizer, criterion)
+        for X in dataset:
+            train(model, X, optimizer, criterion)
             count += 1
             if count % 40000 == 0:
                 torch.save(model, _model_dump)
