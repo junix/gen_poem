@@ -21,7 +21,7 @@ def train(model, input_tensor, optimizer, criterion):
         loss += criterion(output, input_tensor[i + 1].view(1))
     loss.backward()
     optimizer.step()
-    return loss
+    return loss.item()
 
 
 def train_iter(model):
