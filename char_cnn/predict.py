@@ -27,6 +27,8 @@ def load_predict():
             output = None
             for i in range(in_tensor.size(0)):
                 output, hidden = model(in_tensor[i], hidden)
+            if output is None:
+                return ''
             while True:
                 topv, topi = output.topk(1)
                 if topi.item() == EOS:
