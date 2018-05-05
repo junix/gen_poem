@@ -25,7 +25,7 @@ def train(model, input_tensor, optimizer, criterion):
 
 
 def train_iter(model):
-    optimizer = optim.SGD(model.parameters(), lr=0.001)
+    optimizer = optim.SGD(model.parameters(), lr=0.01)
     criterion = nn.NLLLoss()
     count = 1
     dataset = list(gen_dataset())
