@@ -55,7 +55,7 @@ def train_and_dump(load_old=False):
     if load_old:
         model = torch.load(_model_dump)
     else:
-        model = Model(vocab_size=vocab_size, hidden_size=1024)
+        model = Model(vocab_size=vocab_size, hidden_size=512)
     change_to_device(model)
     model.train()
     train_iter(model)
