@@ -34,7 +34,7 @@ def train_iter(model):
         for X in dataset:
             loss += train(model, X, optimizer, criterion)
             count += 1
-            if count % 40000 == 0:
+            if count % 20000 == 0:
                 torch.save(model, _model_dump)
             if count % 2000 == 0:
                 print('loss => ', loss)
