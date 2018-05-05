@@ -21,6 +21,7 @@ def train(model, input_tensor, optimizer, criterion):
         loss += criterion(output, input_tensor[i + 1].view(1))
     loss.backward()
     optimizer.step()
+    return loss
 
 
 def train_iter(model):
@@ -28,13 +29,16 @@ def train_iter(model):
     criterion = nn.NLLLoss()
     count = 1
     dataset = list(gen_dataset())
+    loss = 0
     for epoch in range(400):
         for X in dataset:
-            train(model, X, optimizer, criterion)
+            loss += train(model, X, optimizer, criterion)
             count += 1
             if count % 40000 == 0:
                 torch.save(model, _model_dump)
-                print(count)
+            if count % 2000 == 0:
+                print('loss => ', loss)
+                loss = 0
 
 
 def gen_dataset():
