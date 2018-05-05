@@ -25,7 +25,7 @@ def train(model, input_tensor, optimizer, criterion):
 
 
 def train_iter(model):
-    optimizer = optim.SGD(model.parameters(), lr=0.0001)
+    optimizer = optim.SGD(model.parameters(), lr=0.001)
     criterion = nn.NLLLoss()
     count = 1
     dataset = list(gen_dataset())
@@ -55,6 +55,6 @@ def train_and_dump(load_old=False):
     if load_old:
         model = torch.load(_model_dump)
     else:
-        model = Model(vocab_size=vocab_size, hidden_size=512)
+        model = Model(vocab_size=vocab_size, hidden_size=1024)
     change_to_device(model)
     train_iter(model)
