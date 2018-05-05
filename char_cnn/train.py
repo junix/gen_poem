@@ -1,4 +1,5 @@
 import re
+import random
 import types
 import torch
 import torch.optim as optim
@@ -35,6 +36,7 @@ def train_iter(model):
     dataset = list(gen_dataset())
     loss = 0
     for epoch in range(400):
+        random.shuffle(dataset)
         for X in dataset:
             loss += train(model, X, optimizer, criterion)
             count += 1
