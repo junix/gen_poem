@@ -23,7 +23,7 @@ def train(model, input_tensor, optimizer, criterion):
         output, hidden = model(input_tensor[i], hidden)
         loss += criterion(output, input_tensor[i + 1].view(1))
         topv, topi = output.topk(1)
-        if topi == EOS:
+        if topi.item() == EOS:
             break
     loss.backward()
     optimizer.step()
