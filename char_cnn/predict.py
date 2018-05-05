@@ -45,7 +45,8 @@ def test():
     xs = list(gen_dataset_sentence())
     random.shuffle(xs)
 
-    for seg in xs[:100]:
+    for seg in xs[:1000]:
         prefix = seg[:-2]
         suffix = pred(prefix)
-        print(seg, '=>', prefix + suffix)
+        if suffix:
+            print(seg, '=>', prefix + suffix)
