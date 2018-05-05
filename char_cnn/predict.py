@@ -11,6 +11,7 @@ def load_model():
 
 def load_predict():
     model = load_model()
+    model.eval()
 
     def predict(sentence):
         in_tensor = indexes_from_sentence(sentence, append_eos=False)

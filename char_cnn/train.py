@@ -57,4 +57,5 @@ def train_and_dump(load_old=False):
     else:
         model = Model(vocab_size=vocab_size, hidden_size=1024)
     change_to_device(model)
+    model.train()
     train_iter(model)
