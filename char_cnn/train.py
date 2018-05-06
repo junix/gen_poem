@@ -40,7 +40,7 @@ def make_optimizer(model, optimizer_name, lr):
 
 
 def train_iter(model, optimizer):
-    lr = 0.01
+    lr = 0.001
     optimizer = make_optimizer(model, optimizer, lr=lr)
     optimizer.change_lr = types.MethodType(change_lr, optimizer)
     criterion = nn.NLLLoss()
