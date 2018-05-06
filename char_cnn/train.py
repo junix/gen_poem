@@ -32,7 +32,7 @@ def train(model, input_tensor, optimizer, criterion):
 
 
 def train_iter(model):
-    lr = 0.01
+    lr = 0.001
     optimizer = optim.SGD(model.parameters(), lr=lr)
     optimizer.change_lr = types.MethodType(change_lr, optimizer)
     criterion = nn.NLLLoss()

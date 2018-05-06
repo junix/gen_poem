@@ -47,8 +47,12 @@ def test():
     xs = list(gen_dataset_sentence())
     random.shuffle(xs)
 
+    count = 1
     for seg in xs[:1000]:
         prefix = seg[:-2]
         suffix = pred(prefix)
         if suffix:
             print(seg, '=>', prefix + suffix)
+            count += 1
+            if count >= 40:
+                return
