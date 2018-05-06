@@ -32,8 +32,9 @@ def train(model, input_tensor, optimizer, criterion):
 
 
 def train_iter(model):
-    lr = 0.001
-    optimizer = optim.SGD(model.parameters(), lr=lr)
+    lr = 0.01
+    # optimizer = optim.SGD(model.parameters(), lr=lr)
+    optimizer = optim.Adam(model.parameters(), lr=lr)
     optimizer.change_lr = types.MethodType(change_lr, optimizer)
     criterion = nn.NLLLoss()
     count = 1
@@ -47,7 +48,7 @@ def train_iter(model):
             count += 1
             if count % 20000 == 0:
                 torch.save(model, _model_dump)
-            if count % 100000 == 0:
+            if count % 80000 == 0:
                 lr = lr * 0.95
                 if lr < 0.0001:
                     lr = 0.0001
