@@ -31,11 +31,17 @@ def train(model, input_tensor, optimizer, criterion):
     return loss.item()
 
 
-def train_iter(model):
+def make_optimizer(model, optimizer_name, lr):
+    if optimizer_name == 'adam':
+        return optim.Adam(model.parameters(), lr=lr)
+    if optimizer_name == 'rmsprop':
+        return optim.RMSprop(model.parameters(), lr=lr)
+    return optim.SGD(model.parameters(), lr=lr)
+
+
+def train_iter(model, optimizer):
     lr = 0.01
-    # optimizer = optim.SGD(model.parameters(), lr=lr)
-    # optimizer = optim.Adam(model.parameters(), lr=lr)
-    optimizer = optim.RMSprop(model.parameters(), lr=lr)
+    optimizer = make_optimizer(model, optimizer, lr=lr)
     optimizer.change_lr = types.MethodType(change_lr, optimizer)
     criterion = nn.NLLLoss()
     count = 1
@@ -74,11 +80,11 @@ def gen_dataset():
         yield indexes_from_sentence(seg)
 
 
-def train_and_dump(load_old=False):
+def train_and_dump(load_old=False, optimizer='sgd'):
     if load_old:
         model = torch.load(_model_dump)
     else:
         model = Model(vocab_size=vocab_size, hidden_size=1024)
     change_to_device(model)
     model.train()
-    train_iter(model)
+    train_iter(model, optimizer)

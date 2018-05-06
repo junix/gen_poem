@@ -2,6 +2,7 @@
   <dictionary name="junix">
     <words>
       <w>optim</w>
+      <w>rmsprop</w>
       <w>topi</w>
       <w>topv</w>
     </words>
