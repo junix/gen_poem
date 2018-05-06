@@ -11,7 +11,7 @@ from dataset import indexes_from_sentence, vocab_size, EOS
 from utils import change_lr
 from .model import Model
 
-_model_dump = 'rms_model.pt'
+_model_dump = 'model.pt'
 
 
 def train(model, input_tensor, optimizer, criterion):
@@ -81,6 +81,8 @@ def gen_dataset():
 
 
 def train_and_dump(load_old=False, optimizer='sgd'):
+    global _model_dump
+    _model_dump = optimizer + '.' + _model_dump
     if load_old:
         model = torch.load(_model_dump)
     else:
