@@ -25,7 +25,7 @@ def train(model, input_tensor, optimizer, criterion):
         topv, topi = output.topk(1)
         if topi.item() == EOS:
             break
-    nn.utils.clip_grad_norm_(model.parameters())
+    nn.utils.clip_grad_norm_(model.parameters(), 0.5)
     loss.backward()
     optimizer.step()
     return loss.item()
