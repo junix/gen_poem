@@ -11,7 +11,7 @@ from dataset import indexes_from_sentence, vocab_size, EOS
 from utils import change_lr
 from .model import Model
 
-_model_dump = 'model.pt'
+_model_dump = 'rms_model.pt'
 
 
 def train(model, input_tensor, optimizer, criterion):
@@ -34,7 +34,8 @@ def train(model, input_tensor, optimizer, criterion):
 def train_iter(model):
     lr = 0.01
     # optimizer = optim.SGD(model.parameters(), lr=lr)
-    optimizer = optim.Adam(model.parameters(), lr=lr)
+    # optimizer = optim.Adam(model.parameters(), lr=lr)
+    optimizer = optim.RMSprop(model.parameters(), lr=lr)
     optimizer.change_lr = types.MethodType(change_lr, optimizer)
     criterion = nn.NLLLoss()
     count = 1
