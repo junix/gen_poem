@@ -1,14 +1,13 @@
 import torch
 from conf import device, dataset_path
 
-SOS = 0
-EOS = 1
-
 
 def _read_vocab(file):
-    chr2idx = {'<SOS>': SOS, '<EOS>': EOS}
+    chr2idx = {}
     with open(file, 'r') as f:
-        for ch in set(f.read()):
+        cs = list(set(f.read()))
+        cs.append('<EOS>')
+        for ch in cs:
             chr2idx[ch] = len(chr2idx)
         idx2chr = dict([(v, k) for k, v in chr2idx.items()])
         return chr2idx, idx2chr
@@ -17,6 +16,7 @@ def _read_vocab(file):
 char2index, index2char = _read_vocab(dataset_path)
 
 vocab_size = len(char2index)
+EOS = vocab_size - 1
 
 
 def indexes_from_sentence(sentence, append_eos=True):

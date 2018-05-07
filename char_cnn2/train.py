@@ -22,7 +22,7 @@ def train(model, input_tensor, target_tensor, optimizer, criterion):
     for i in range(input_len):
         output, hidden = model(input_tensor[i], hidden)
         loss += criterion(output, target_tensor[i])
-    # nn.utils.clip_grad_norm_(model.parameters(), 0.5)
+    nn.utils.clip_grad_norm_(model.parameters(), 0.5)
     loss.backward()
     optimizer.step()
     return loss.item() / input_len
