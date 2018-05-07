@@ -15,7 +15,7 @@ class Net(nn.Module):
         self.dropout = nn.Dropout(0.1)
         self.softmax = nn.LogSoftmax(dim=1)
 
-    def forward(self, category, input, hidden):
+    def forward(self, input, hidden):
         input_combined = torch.cat((input, hidden), 1).to(device)
         hidden = self.i2h(input_combined)
         output = self.i2o(input_combined)
