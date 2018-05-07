@@ -5,7 +5,7 @@ import torch
 from char_cnn.train import gen_dataset_sentence
 from conf import change_to_device
 from dataset import EOS, index2char
-from .lang import input_tensor, int_input_tensor
+from .lang import input_tensor
 
 
 def load_model():
