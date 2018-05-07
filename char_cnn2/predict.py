@@ -25,7 +25,6 @@ def load_predict():
         hidden = model.init_hidden()
 
         out_words = []
-
         with torch.no_grad():
             for i in range(len(sentence)):
                 output, hidden = model(in_tensor, hidden)
@@ -35,7 +34,7 @@ def load_predict():
                     break
                 out_words.append(cid)
                 in_tensor = int_input_tensor([cid])
-        return sentence[0] + ''.join([index2char[i] for i in out_words])
+            return sentence[0] + ''.join([index2char[i] for i in out_words])
 
     return predict
 
