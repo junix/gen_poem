@@ -14,7 +14,7 @@ _model_dump = 'model.pt'
 
 
 def train(model, input_tensor, target_tensor, optimizer, criterion):
-    target_tensor.unsqueeze_(-1).to(device)
+    target_tensor = target_tensor.unsqueeze_(-1).to(device)
     optimizer.zero_grad()
     input_len = input_tensor.size(0)
     hidden = model.init_hidden()
