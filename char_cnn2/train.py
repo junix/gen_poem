@@ -37,7 +37,7 @@ def make_optimizer(model, optimizer_name, lr):
 
 
 def train_iter(model, optimizer):
-    lr = 0.001
+    lr = 0.0001
     optimizer = make_optimizer(model, optimizer, lr=lr)
     optimizer.change_lr = types.MethodType(change_lr, optimizer)
     criterion = nn.NLLLoss()
@@ -46,16 +46,11 @@ def train_iter(model, optimizer):
     for input_tensor, target_tensor in gen_dataset():
         loss += train(model, input_tensor, target_tensor, optimizer, criterion)
         count += 1
-        if count % 20000 == 0:
-            torch.save(model, _model_dump)
-        if count % 80000 == 0:
-            lr = lr * 0.95
-            if lr < 0.0001:
-                lr = 0.0001
-            optimizer.change_lr(lr)
         if count % 2000 == 0:
             print(count, ' => ', loss)
             loss = 0
+            if count % 10000 == 0:
+                torch.save(model, _model_dump)
 
 
 def train_and_dump(load_old=False, optimizer='sgd'):
