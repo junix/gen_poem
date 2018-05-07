@@ -47,7 +47,7 @@ def test():
     count = 1
     for seg in xs[:1000]:
         gseg = pred(seg)
-        if gseg:
+        if len(gseg) > 1:
             print(seg, '=>', gseg)
             count += 1
             if count >= 40:
