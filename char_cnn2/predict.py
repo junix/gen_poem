@@ -35,7 +35,7 @@ def load_predict():
                     break
                 out_words.append(cid)
                 in_tensor = int_input_tensor([cid])
-        return ''.join([index2char[i] for i in out_words])
+        return sentence[0] + ''.join([index2char[i] for i in out_words])
 
     return predict
 
