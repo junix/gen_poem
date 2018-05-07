@@ -1,13 +1,13 @@
-import re
 import random
+import re
 import types
+
 import torch
-import torch.optim as optim
 import torch.nn as nn
+import torch.optim as optim
 
 from conf import dataset_path, change_to_device
 from dataset import indexes_from_sentence, vocab_size, EOS
-
 from utils import change_lr
 from .model import Model
 

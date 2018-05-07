@@ -25,3 +25,4 @@ class Model(nn.Module):
 
     def init_hidden(self):
         return torch.zeros(1, 1, self.hidden_size, device=device)
+

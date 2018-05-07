@@ -24,3 +24,10 @@ def indexes_from_sentence(sentence, append_eos=True):
     if append_eos:
         indexes.append(EOS)
     return torch.tensor(indexes, dtype=torch.long, device=device)
+
+
+def encoder_sentence(sentence):
+    vec = torch.zeros(vocab_size, dtype=torch.float)
+    for c in sentence:
+        vec[char2index[c]] = 1.0
+    return vec
