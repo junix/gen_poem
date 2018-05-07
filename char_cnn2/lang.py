@@ -7,9 +7,13 @@ from conf import dataset_path
 
 # One-hot matrix of first to last letters (not including EOS) for input
 def input_tensor(line):
-    tensor = torch.zeros(len(line), 1, vocab_size)
-    for index, ch in enumerate(line):
-        tensor[index][0][char2index[ch]] = 1
+    return int_input_tensor([char2index[c] for c in line])
+
+
+def int_input_tensor(ints):
+    tensor = torch.zeros(len(ints), 1, vocab_size)
+    for index, cid in enumerate(ints):
+        tensor[index][0][cid] = 1
     return tensor
 
 

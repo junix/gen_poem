@@ -3,12 +3,13 @@ import random
 import torch
 
 from char_cnn.train import gen_dataset_sentence
-from conf import change_to_device, device
-from dataset import indexes_from_sentence, EOS, index2char
+from conf import change_to_device
+from dataset import EOS, index2char
+from .lang import input_tensor, int_input_tensor
 
 
 def load_model():
-    model = torch.load('model.pt', map_location=lambda storage, loc: storage)
+    model = torch.load('sgd.model.pt', map_location=lambda storage, loc: storage)
     change_to_device(model)
     return model
 
@@ -18,25 +19,22 @@ def load_predict():
     model.eval()
 
     def predict(sentence):
-        in_tensor = indexes_from_sentence(sentence, append_eos=False)
+        if not sentence:
+            return ''
+        in_tensor = input_tensor(sentence[0])
         hidden = model.init_hidden()
 
         out_words = []
 
         with torch.no_grad():
-            output = None
-            for i in range(in_tensor.size(0)):
-                output, hidden = model(in_tensor[i], hidden)
-            if output is None:
-                return ''
-            while True:
+            for i in range(len(sentence)):
+                output, hidden = model(in_tensor, hidden)
                 topv, topi = output.topk(1)
-                if topi.item() == EOS:
+                cid = topi.item()
+                if cid == EOS:
                     break
-                else:
-                    out_words.append(topi.item())
-                    input = torch.tensor([[topi.item()]], dtype=torch.long, device=device)
-                    output, hidden = model(input, hidden)
+                out_words.append(cid)
+                in_tensor = int_input_tensor([cid])
         return ''.join([index2char[i] for i in out_words])
 
     return predict
@@ -49,10 +47,9 @@ def test():
 
     count = 1
     for seg in xs[:1000]:
-        prefix = seg[:-2]
-        suffix = pred(prefix)
-        if suffix:
-            print(seg, '=>', prefix + suffix)
+        gseg = pred(seg)
+        if gseg:
+            print(seg, '=>', gseg)
             count += 1
             if count >= 40:
                 return
