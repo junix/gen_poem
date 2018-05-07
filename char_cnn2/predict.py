@@ -21,20 +21,21 @@ def load_predict():
     def predict(sentence):
         if not sentence:
             return ''
-        in_tensor = input_tensor(sentence[0])
         hidden = model.init_hidden()
-
-        out_words = []
+        ch = sentence[0]
+        out_words = [ch]
         with torch.no_grad():
             for i in range(len(sentence)):
+                in_tensor = input_tensor(ch)
                 output, hidden = model(in_tensor, hidden)
                 topv, topi = output.topk(1)
                 cid = topi.item()
                 if cid == EOS:
                     break
-                out_words.append(cid)
-                in_tensor = int_input_tensor([cid])
-            return sentence[0] + ''.join([index2char[i] for i in out_words])
+                ch = index2char[cid]
+                out_words.append(ch)
+
+            return ''.join(out_words)
 
     return predict
 
